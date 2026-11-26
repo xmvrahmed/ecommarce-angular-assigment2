@@ -1,0 +1,59 @@
+<section class="hero">
+  <button class="hero-arrow previous" (click)="moveSlide(-1)" aria-label="Previous slide">‹</button>
+  <div class="container hero-content">
+    <div class="hero-copy"><h1>{{ slides[slideIndex()].title }}</h1><p>{{ slides[slideIndex()].text }}</p><div class="hero-actions"><a class="button hero-primary" routerLink="/products">{{ slides[slideIndex()].primary }}</a><a class="button hero-secondary" routerLink="/products" [queryParams]="{ sort: '-price' }">{{ slides[slideIndex()].secondary }}</a></div></div>
+  </div>
+  <button class="hero-arrow next" (click)="moveSlide(1)" aria-label="Next slide">›</button>
+  <div class="hero-dots">@for (slide of slides; track $index; let i = $index) { <button [class.active]="i === slideIndex()" (click)="slideIndex.set(i)" [attr.aria-label]="'Slide ' + (i + 1)"></button> }</div>
+</section>
+<section class="benefits">
+  <div class="container benefits-grid">
+    <article><span class="benefit-icon blue">🚚</span><div><strong>Free Shipping</strong><small>On orders over 500 EGP</small></div></article>
+    <article><span class="benefit-icon green">◈</span><div><strong>Secure Payment</strong><small>100% secure transactions</small></div></article>
+    <article><span class="benefit-icon orange">↶</span><div><strong>Easy Returns</strong><small>14-day return policy</small></div></article>
+    <article><span class="benefit-icon purple">◉</span><div><strong>24/7 Support</strong><small>Dedicated support team</small></div></article>
+  </div>
+</section>
+@if (error()) { <div class="container"><p class="error-message">{{ error() }}</p></div> }
+<section class="container section category-section">
+  <div class="section-heading"><h2>Shop By <span>Category</span></h2><a routerLink="/categories">View All Categories →</a></div>
+  @if (categories().length) {
+    <div class="category-grid">
+      @for (category of categories(); track category._id) {
+        <a class="category-card" [routerLink]="['/categories', category._id]"><img [src]="category.image" [alt]="category.name" loading="lazy"><strong>{{ category.name }}</strong></a>
+      }
+    </div>
+  } @else if (!error()) { <div class="loading-state">Finding fresh categories for you…</div> }
+</section>
+<section class="container deal-grid">
+  <article class="deal-card fruits-deal"><span class="deal-kicker">🔥 &nbsp; Deal of the Day</span><h2>Fresh Organic Fruits</h2><p>Get up to 40% off on selected organic fruits</p><div class="deal-tag"><strong>40% OFF</strong><small>Use code: ORGANIC40</small></div><a [routerLink]="marketplaceCategoryId ? ['/categories', marketplaceCategoryId] : ['/categories']">Shop Now <span>→</span></a><span class="deal-art" aria-hidden="true">🍉🍊</span></article>
+  <article class="deal-card vegetables-deal"><span class="deal-kicker">✨ &nbsp; New Arrivals</span><h2>Exotic Vegetables</h2><p>Discover our latest collection of premium vegetables</p><div class="deal-tag"><strong>25% OFF</strong><small>Use code: FRESH25</small></div><a routerLink="/categories">Explore Now <span>→</span></a><span class="deal-art" aria-hidden="true">🥑🥦</span></article>
+</section>
+<section class="featured section">
+  <div class="container">
+    <div class="section-heading"><h2>Featured Products</h2><a routerLink="/products">View All Products <span>→</span></a></div>
+    @if (products().length) {
+      <div class="product-grid">
+        @for (product of products(); track product._id; let i = $index) { <app-product-card [product]="product" [imageLoading]="i < 5 ? 'eager' : 'lazy'" /> }
+      </div>
+    } @else if (!error()) { <div class="loading-state">Loading featured products…</div> }
+  </div>
+</section>
+<section class="container home-extras">
+  <form class="newsletter" (ngSubmit)="subscribe()">
+    <div class="newsletter-main">
+      <span class="newsletter-pill">NEWSLETTER <i></i> 50,000+ subscribers</span>
+      <h2>Get the Freshest Updates Delivered Free</h2>
+      <p>Weekly recipes, seasonal offers &amp; exclusive member perks.</p>
+      <div class="newsletter-benefits"><span>✓ Fresh Picks Weekly</span><span>✓ Free Delivery Codes</span><span>✓ Members-Only Deals</span></div>
+      <div class="newsletter-form"><input type="email" name="newsletterEmail" [(ngModel)]="newsletterEmail" placeholder="Enter your email address" required><button type="submit">{{ subscribed() ? 'Subscribed' : 'Subscribe' }} <span>→</span></button></div>
+      @if (subscribed()) { <span class="newsletter-success" role="status">Thanks for subscribing. Fresh updates are on their way!</span> }
+      <small>✨ Unsubscribe anytime. No spam, ever.</small>
+    </div>
+    <div class="newsletter-illustration" aria-hidden="true">✉<span>✦</span></div>
+  </form>
+  <article class="app-promo">
+    <div class="app-copy"><span>📱 &nbsp; MOBILE APP</span><h2>Shop Faster on Our App</h2><p>Get app-exclusive deals &amp; 15% off your first order.</p><div class="app-badges"><a href="https://www.apple.com/app-store/" target="_blank" rel="noreferrer"><small>DOWNLOAD ON</small><strong>App Store</strong></a><a href="https://play.google.com/store" target="_blank" rel="noreferrer"><small>GET IT ON</small><strong>Google Play</strong></a></div><div class="app-rating"><span>★★★★★</span> 4.9 · 100K+ downloads</div></div>
+    <div class="app-phone" aria-hidden="true"><div class="phone-screen"><span>FreshCart</span><strong>Fresh picks,<br>just for you</strong><span>🥑 🍊 🥬</span><i></i><i></i><i></i></div></div>
+  </article>
+</section>

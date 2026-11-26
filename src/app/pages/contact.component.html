@@ -1,0 +1,29 @@
+<section class="contact-banner">
+  <div class="container">
+    <div class="breadcrumb"><a routerLink="/">Home</a><span>/</span><span>Contact Us</span></div>
+    <div class="banner-title"><span class="banner-icon">◉</span><div><h1>Contact Us</h1><p>We'd love to hear from you. Get in touch with our team.</p></div></div>
+  </div>
+</section>
+<main class="container contact-layout">
+  <aside class="contact-details">
+    <article class="contact-card"><span class="contact-icon">☎</span><div><h2>Phone</h2><p>Mon-Fri from 8am to 6pm</p><a href="tel:+18001234567">+1 (800) 123-4567</a></div></article>
+    <article class="contact-card"><span class="contact-icon">✉</span><div><h2>Email</h2><p>We'll respond within 24 hours</p><a href="mailto:support@freshcart.com">support&#64;freshcart.com</a></div></article>
+    <article class="contact-card"><span class="contact-icon">⌖</span><div><h2>Office</h2><p>123 Commerce Street<br>New York, NY 10001<br>United States</p></div></article>
+    <article class="contact-card"><span class="contact-icon">◷</span><div><h2>Business Hours</h2><p>Monday - Friday: 8am - 6pm<br>Saturday: 9am - 4pm<br>Sunday: Closed</p></div></article>
+    <article class="social-card"><h2>Follow Us</h2><div><a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">f</a><a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">𝕏</a><a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a><a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a></div></article>
+  </aside>
+  <div class="contact-main">
+    <form class="contact-form" (ngSubmit)="sendMessage()">
+      <div class="contact-form-heading"><span class="contact-icon">◉</span><div><h2>Send us a Message</h2><p>Fill out the form and we'll get back to you.</p></div></div>
+      <div class="contact-form-fields">
+        <label>Full Name<input name="name" [(ngModel)]="name" autocomplete="name" placeholder="John Doe" required></label>
+        <label>Email Address<input name="email" [(ngModel)]="email" type="email" autocomplete="email" placeholder="john@example.com" required></label>
+        <label class="wide">Subject<select name="subject" [(ngModel)]="subject" required><option value="" disabled>Select a subject</option><option>Order status</option><option>Returns and refunds</option><option>Product question</option><option>Other</option></select></label>
+        <label class="wide">Message<textarea name="message" [(ngModel)]="message" rows="5" placeholder="How can we help you?" required></textarea></label>
+      </div>
+      <button class="button button-green" type="submit">➤ &nbsp; Send Message</button>
+      @if (submitted()) { <p class="contact-success" role="status">Your email app should open with this message ready to send. You can also email us at support&#64;freshcart.com.</p> }
+    </form>
+    <aside class="help-card"><span class="help-icon">?</span><div><h2>Looking for quick answers?</h2><p>Check out our Help Center for frequently asked questions about orders, shipping, returns, and more.</p><a href="mailto:support@freshcart.com?subject=FreshCart%20help">Visit Help Center →</a></div></aside>
+  </div>
+</main>

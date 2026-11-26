@@ -1,0 +1,41 @@
+<main class="container checkout-page">
+  <div class="checkout-heading">
+    <div><div class="checkout-crumb"><a routerLink="/">Home</a><span>/</span><a routerLink="/cart">Cart</a><span>/</span><strong>Checkout</strong></div><h1><span>▣</span> Complete Your Order</h1><p>Review your items and complete your purchase.</p></div>
+    <a class="back-cart" routerLink="/cart">← Back to Cart</a>
+  </div>
+  @if (error()) { <p class="error-message">{{ error() }}</p> }
+  @if (loading()) { <div class="loading-state">Refreshing your order…</div> }
+  @else if (store.cart().length) {
+    <form class="checkout-layout" (ngSubmit)="checkout()">
+      <div class="checkout-main">
+        <section class="checkout-card">
+          <div class="checkout-card-heading"><strong>⌂ &nbsp; Shipping Address</strong><small>Where should we deliver your order?</small></div>
+          <div class="checkout-fields">
+            <label class="wide">Full Name<input name="name" [(ngModel)]="name" autocomplete="name" placeholder="Your full name" required></label>
+            <label>City<input name="city" [(ngModel)]="city" autocomplete="address-level2" placeholder="e.g. Cairo, Alexandria, Giza" required></label>
+            <label>Phone Number<input name="phone" [(ngModel)]="phone" type="tel" autocomplete="tel" placeholder="+20 100 000 0000" required></label>
+            <label class="wide">Street Address<textarea name="details" [(ngModel)]="details" autocomplete="street-address" rows="2" placeholder="Street name, building number, floor, apartment..." required></textarea></label>
+          </div>
+        </section>
+        <section class="checkout-card payment-card">
+          <div class="checkout-card-heading"><strong>▣ &nbsp; Payment Method</strong><small>Choose how you'd like to pay.</small></div>
+          <label class="payment-option" [class.selected]="paymentMethod === 'cash'"><input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="cash"><span class="payment-symbol">▣</span><span class="payment-copy"><strong>Cash on Delivery</strong><small>Pay when your order arrives at your doorstep.</small></span><i></i></label>
+          <label class="payment-option" [class.selected]="paymentMethod === 'online'"><input type="radio" name="paymentMethod" [(ngModel)]="paymentMethod" value="online"><span class="payment-symbol">▤</span><span class="payment-copy"><strong>Pay Online</strong><small>Secure payment with your credit or debit card via Stripe.</small><small class="card-brands">VISA &nbsp; Mastercard &nbsp; AMEX</small></span><i></i></label>
+          @if (!store.user() && paymentMethod === 'online') { <p class="checkout-hint">Sign in is required for online card payments. <a routerLink="/login" [queryParams]="{ next: '/checkout' }">Sign in</a></p> }
+          <div class="encrypted-note"><span>◈</span><div><strong>Secure &amp; Encrypted</strong><small>Your payment information is protected with 256-bit SSL encryption.</small></div></div>
+        </section>
+      </div>
+      <aside class="checkout-summary">
+        <div class="summary-heading"><strong>▣ &nbsp; Order Summary</strong><small>{{ store.cartCount() }} {{ store.cartCount() === 1 ? 'item' : 'items' }}</small></div>
+        <div class="checkout-products">
+          @for (line of store.cart(); track line.product._id) {
+            <article><img [src]="line.product.imageCover" [alt]="line.product.title"><div><strong>{{ line.product.title }}</strong><small>{{ line.count }} × {{ store.linePrice(line) ?? 'Price unavailable' }} EGP</small></div><b>{{ store.lineTotal(line) ?? 'Price unavailable' }} EGP</b></article>
+          }
+        </div>
+        <div class="checkout-totals"><div><span>Subtotal</span><strong>@if (store.cartTotal() !== null) { {{ store.cartTotal() }} EGP } @else { Price unavailable }</strong></div><div><span>Shipping</span><strong class="free">FREE</strong></div><div class="checkout-total"><span>Total</span><strong>@if (store.cartTotal() !== null) { {{ store.cartTotal() }} <small>EGP</small> } @else { Price unavailable }</strong></div></div>
+        <button class="button button-green place-order" type="submit" [disabled]="busy() || store.cartHasInvalidPrice()">{{ busy() ? 'Processing…' : '▣ &nbsp; Place Order' }}</button>
+        <div class="checkout-trust"><span>◈ Secure</span><span>▰ Fast Delivery</span><span>↶ Easy Returns</span></div>
+      </aside>
+    </form>
+  }
+</main>

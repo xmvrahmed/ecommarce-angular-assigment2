@@ -1,0 +1,149 @@
+.app-promo {
+  background: linear-gradient(135deg, #111827, #374151);
+  color: #fff;
+}
+
+.app-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+}
+
+.app-copy > span {
+  color: #a7f3d0;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.app-copy h2 {
+  margin: 13px 0 8px;
+  font: 700 26px/1.2 'Exo', sans-serif;
+}
+
+.app-copy p {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.app-badges {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.app-badges a {
+  display: flex;
+  min-width: 115px;
+  flex-direction: column;
+  padding: 8px 10px;
+  border: 1px solid #ffffff55;
+  border-radius: 7px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+}
+
+.app-badges small {
+  color: #cbd5e1;
+  font-size: 8px;
+}
+
+.app-badges strong {
+  font-size: 13px;
+}
+
+.app-rating {
+  color: #cbd5e1;
+  font-size: 10px;
+}
+
+.app-rating span {
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+
+.app-phone {
+  position: absolute;
+  right: 26px;
+  bottom: -37px;
+  width: 132px;
+  height: 245px;
+  padding: 6px;
+  border: 6px solid #d1d5db;
+  border-radius: 23px;
+  background: #fff;
+  box-shadow: 0 18px 35px #0005;
+  transform: rotate(8deg);
+}
+
+.phone-screen {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 8px;
+  border-radius: 14px;
+  background: #f0fdf4;
+  color: #1f2937;
+}
+
+.phone-screen > span:first-child {
+  color: #16a34a;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.phone-screen > strong {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.phone-screen > span:nth-child(3) {
+  font-size: 22px;
+}
+
+.phone-screen i {
+  height: 17px;
+  border-radius: 5px;
+  background: #d1fae5;
+}
+
+.phone-screen i:last-child {
+  width: 65%;
+}
+
+@media (max-width: 850px) {
+  .hero { height: 350px; }
+  .category-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .featured .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .home-extras { grid-template-columns: 1fr; }
+  .newsletter, .app-promo { min-height: 300px; }
+}
+
+@media (max-width: 580px) {
+  .hero { height: 330px; }
+  .hero-copy { margin: 0 22px; }
+  .hero h1 { font-size: 27px; }
+  .hero p { font-size: 14px; }
+  .hero-arrow { width: 36px; height: 36px; font-size: 26px; }
+  .hero-arrow.previous { left: 8px; }
+  .hero-arrow.next { right: 8px; }
+  .benefits-grid article { min-height: 72px; gap: 9px; padding: 10px; }
+  .benefit-icon { width: 36px; height: 36px; font-size: 17px; }
+  .benefits-grid strong { font-size: 11px; }
+  .benefits-grid small { font-size: 9px; }
+  .category-section { padding-top: 45px; }
+  .category-grid, .featured .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .category-card { padding: 10px; }
+  .category-card img { height: 95px; }
+  .deal-grid { grid-template-columns: 1fr; gap: 12px; padding-top: 22px; }
+  .deal-card { min-height: 215px; padding: 22px; }
+  .deal-card h2 { font-size: 20px; }
+  .deal-art { font-size: 54px; }
+  .featured { padding-top: 32px; }
+  .newsletter, .app-promo { min-height: 300px; padding: 22px; }
+  .newsletter h2, .app-copy h2 { font-size: 23px; }
+  .newsletter-illustration { right: 10px; font-size: 64px; }
+  .app-phone { right: 6px; width: 104px; height: 205px; opacity: .75; }
+  .app-copy { max-width: 245px; }
+}

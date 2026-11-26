@@ -1,0 +1,30 @@
+<div class="top-strip">
+  <div class="header-container top-inner">
+    <div class="top-promises"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h11v11H3zM14 9h4l3 3v4h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>Free Shipping on Orders 500 EGP</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8v12H4V8m-2 0h20v4H2zm10 0v12M12 8c-5 0-6-5-3-5s3 5 3 5Zm0 0c0-5 4-6 5-3s-5 3-5 3Z"/></svg>New Arrivals Daily</span></div>
+    <div class="top-links"><a href="tel:+18001234567"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2h3l1.5 4.5-2 1.8a15 15 0 0 0 6.6 6.6l1.8-2 4.5 1.5v3c0 1.1-.9 2-2 2A18 18 0 0 1 4.6 4c0-1.1.9-2 2-2Z"/></svg>+1 (800) 123-4567</a><a href="mailto:support@freshcart.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zm0 1 9 7 9-7"/></svg>support&#64;freshcart.com</a>@if (store.user(); as user) { <a routerLink="/orders">{{ user.name || user.email }}</a><button type="button" class="top-signout" (click)="signOut()">↪ Sign Out</button> } @else { <a routerLink="/login"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>Sign In</a><a routerLink="/register"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M2 21a7 7 0 0 1 14 0m3-10v7m-3.5-3.5h7"/></svg>Sign Up</a> }</div>
+  </div>
+</div>
+<header class="main-header">
+  <div class="header-container header-main">
+    <a class="brand-mark" routerLink="/" aria-label="FreshCart home"><img src="https://ecommerce-route-ashen.vercel.app/_next/static/media/freshcart-logo.49f1b44d.svg" alt="FreshCart"></a>
+    <form class="search-box" (ngSubmit)="search()">
+      <input name="search" [(ngModel)]="searchTerm" placeholder="Search for products, brands and more..." aria-label="Search products">
+      <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button>
+    </form>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a routerLink="/">Home</a>
+      <a routerLink="/products">Shop</a>
+      <a routerLink="/categories">Categories <span aria-hidden="true">⌄</span></a>
+      <a routerLink="/brands">Brands</a>
+    </nav>
+    <a class="support-link" routerLink="/contact"><span class="support-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-2a8 8 0 0 1 16 0v2m-16-1H3v6h4v-6H4Zm16 0h1v6h-4v-6h3Zm-3 6a5 5 0 0 1-5 3h-2"/></svg></span><span><small>Support</small><strong>24/7 Help</strong></span></a>
+    <a class="header-icon" routerLink="/wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg><i>{{ store.wishlist().length }}</i></a>
+    <a class="header-icon cart-icon" routerLink="/cart" aria-label="Shopping cart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.2 12.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 8H6M10 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg><i>{{ store.cartCount() }}</i></a>
+    @if (store.user(); as user) {
+      <div class="account-menu"><a class="button button-green account-button" routerLink="/orders">♙ {{ user.name || 'My account' }}</a><div class="account-links"><a routerLink="/change-password">Change password</a><button type="button" class="signout-link" (click)="signOut()">Sign out</button></div></div>
+    } @else {
+      <a class="button button-green account-button" routerLink="/login"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>Sign In</span></a>
+    }
+  </div>
+</header>
+@if (accountSyncError()) { <div class="account-sync-error" role="status">{{ accountSyncError() }}</div> }

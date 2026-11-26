@@ -1,0 +1,38 @@
+<section class="catalog-banner"><div class="container"><div class="breadcrumb"><a routerLink="/">Home</a><span>/</span><span>{{ title() }}</span></div><div class="banner-title"><span class="banner-icon">{{ kind() === 'categories' || kind() === 'category' ? '▦' : kind() === 'brands' || kind() === 'brand' ? '✦' : '⬡' }}</span><div><h1>{{ title() }}</h1><p>{{ subtitle() }}</p></div></div></div></section>
+<section class="container catalog-content">
+  @if (error()) { <p class="error-message">{{ error() }}</p> }
+  @if (loading()) { <div class="loading-state">Loading your collection…</div> }
+  @else if (kind() === 'categories') {
+    @if (categories().length) {
+      <div class="collection-grid category-list">
+        @for (category of categories(); track category._id) { <a class="collection-card" [routerLink]="['/categories', category._id]"><img [src]="category.image" [alt]="category.name" loading="lazy"><div><strong>{{ category.name }}</strong><span>Explore category →</span></div></a> }
+      </div>
+    } @else { <div class="empty-state"><div class="empty-icon">▦</div><h2>No categories yet</h2><p>Please check back soon.</p></div> }
+  } @else if (kind() === 'brands') {
+    @if (brands().length) {
+      <div class="collection-grid brand-list">
+        @for (brand of brands(); track brand._id) { <a class="collection-card brand-card" [routerLink]="['/brands', brand._id]"><img [src]="brand.image" [alt]="brand.name" loading="lazy"><div><strong>{{ brand.name }}</strong><span>Explore brand →</span></div></a> }
+      </div>
+    } @else { <div class="empty-state"><div class="empty-icon">✦</div><h2>No brands yet</h2><p>Please check back soon.</p></div> }
+  } @else {
+    @if (kind() === 'category' && subcategories().length) {
+      <section class="subcategory-section">
+        <div class="subcategory-heading"><h2>Browse Subcategories</h2><span>{{ subcategories().length }} subcategories in {{ title() }}</span></div>
+        <div class="subcategory-grid">
+          @for (subcategory of subcategories(); track subcategory._id) {
+            <a class="subcategory-card" [routerLink]="['/subcategories', subcategory._id]">
+              <span class="subcategory-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5V10H6a3 3 0 0 0-2.8 2L2 17.5V7.5Z"/><path d="M6 12h15l-2.2 6.1a2 2 0 0 1-1.9 1.4H5a2 2 0 0 1-1.9-2.6L5 13.4A1.1 1.1 0 0 1 6 12Z"/></svg></span>
+              <strong>{{ subcategory.name }}</strong>
+              <span class="subcategory-action">Browse products <span aria-hidden="true">→</span></span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+    @if (products().length || kind() !== 'category' || !subcategories().length) {
+      <div class="catalog-toolbar"><p>Showing <strong>{{ products().length }}</strong> products @if (keyword) { for “{{ keyword }}” }</p><label>Sort by <select [value]="sort()" (change)="changeSort($event)"><option value="popular">Most popular</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="top-rated">Top rated</option></select></label></div>
+      @if (products().length) { <div class="product-grid">@for (product of products(); track product._id; let i = $index) { <app-product-card [product]="product" [imageLoading]="i < 4 ? 'eager' : 'lazy'" /> }</div> }
+      @else { <div class="empty-state"><div class="empty-icon">⌕</div><h2>No products found</h2><p>Try a different search or browse another collection.</p><a class="button button-green" routerLink="/products">Browse all products</a></div> }
+    }
+  }
+</section>

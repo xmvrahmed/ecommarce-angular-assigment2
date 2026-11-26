@@ -1,0 +1,18 @@
+<section class="container wishlist-page">
+  <div class="page-heading"><div><div class="crumb"><a routerLink="/">Home</a> / Wishlist</div><h1>Your Wishlist</h1><p>All the things you’ve had your eye on.</p></div><span class="wishlist-icon">♡</span></div>
+  @if (error()) { <p class="error-message">{{ error() }}</p> }
+  @if (store.wishlist().length) {
+    <div class="wishlist-summary"><strong>{{ store.wishlist().length }} saved {{ store.wishlist().length === 1 ? 'item' : 'items' }}</strong><a routerLink="/products">Keep browsing →</a></div>
+    <div class="wishlist-grid">
+      @for (product of store.wishlist(); track product._id) {
+        <article class="wishlist-card">
+          <a class="wish-image" [routerLink]="['/products', product._id]"><img [src]="product.imageCover" [alt]="product.title"></a>
+          <button type="button" class="remove-wish" (click)="remove(product)" [attr.aria-label]="'Remove ' + product.title">×</button>
+          <div class="wish-info"><a class="wish-category" [routerLink]="['/categories', product.category?._id]">{{ product.category?.name || 'FreshCart pick' }}</a><a class="wish-title" [routerLink]="['/products', product._id]">{{ product.title }}</a><div class="wish-bottom"><strong>{{ product.priceAfterDiscount || product.price }} EGP</strong><button type="button" class="button button-green" (click)="addToCart(product)">Add to cart</button></div></div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state"><div class="empty-icon">♡</div><h2>Your wishlist is a little lonely</h2><p>Save your favourite finds here and come back to them anytime.</p><a class="button button-green" routerLink="/products">Explore products</a></div>
+  }
+</section>

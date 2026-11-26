@@ -1,0 +1,38 @@
+<section class="container cart-page">
+  <div class="page-heading"><div><div class="crumb"><a routerLink="/">Home</a> / Shopping cart</div><h1>Your Shopping Cart</h1><p>Review your items and choose how you’d like to pay.</p></div><span class="cart-heading-icon">🛒</span></div>
+  @if (error()) { <p class="error-message">{{ error() }}</p> }
+  @if (loading()) { <div class="loading-state">Updating your cart…</div> }
+  @else if (store.cart().length === 0) {
+    <div class="empty-state"><div class="empty-icon">🛍️</div><h2>Your cart is waiting for something good</h2><p>Browse our fresh picks and add a little joy to your day.</p><a class="button button-green" routerLink="/products">Continue shopping</a></div>
+  } @else {
+    <div class="cart-layout">
+      <div class="cart-items">
+        <div class="cart-card">
+          <div class="cart-card-heading"><strong>Your items</strong><span>{{ store.cartCount() }} items</span></div>
+          @for (line of store.cart(); track line.product._id) {
+            <article class="cart-row">
+              <a class="cart-thumb" [routerLink]="['/products', line.product._id]"><img [src]="line.product.imageCover" [alt]="line.product.title"></a>
+              <div class="cart-product"><a [routerLink]="['/products', line.product._id]">{{ line.product.title }}</a><small>{{ line.product.category?.name || 'FreshCart pick' }}</small><button type="button" class="remove-link" (click)="remove(line.product._id)">Remove</button></div>
+              <div class="quantity-control"><button type="button" (click)="update(line.product._id, line.count - 1)" aria-label="Decrease quantity">−</button><span>{{ line.count }}</span><button type="button" (click)="update(line.product._id, line.count + 1)" aria-label="Increase quantity">+</button></div>
+              <strong class="line-total">@if (store.lineTotal(line) !== null) { {{ store.lineTotal(line) }} EGP } @else { Price unavailable }</strong>
+            </article>
+          }
+          <a class="continue-link" routerLink="/products">← Continue Shopping</a>
+        </div>
+      </div>
+      <aside class="summary-card">
+        <div class="summary-card-heading"><strong>▣ &nbsp; Order Summary</strong><small>{{ store.cartCount() }} items in your cart</small></div>
+        <div class="free-shipping"><span>▰</span><div><strong>Free Shipping!</strong><small>You qualify for free delivery.</small></div></div>
+        <div class="summary-line"><span>Subtotal</span><strong>@if (store.cartTotal() !== null) { {{ store.cartTotal() }} EGP } @else { Price unavailable }</strong></div>
+        <div class="summary-line"><span>Shipping</span><strong class="free">FREE</strong></div>
+        <div class="summary-total"><span>Total</span><strong>@if (store.cartTotal() !== null) { {{ store.cartTotal() }} <small>EGP</small> } @else { Price unavailable }</strong></div>
+        <button class="promo-toggle" type="button" (click)="promoOpen.set(!promoOpen())">◆ &nbsp; Apply Promo Code</button>
+        @if (promoOpen()) { <p class="promo-note">Promo codes aren't available for this checkout yet.</p> }
+        <a class="button button-green secure-checkout" [class.checkout-disabled]="store.cartHasInvalidPrice()" [attr.aria-disabled]="store.cartHasInvalidPrice()" [routerLink]="store.cartHasInvalidPrice() ? null : '/checkout'">▣ &nbsp; Secure Checkout</a>
+        @if (store.cartHasInvalidPrice()) { <p class="promo-note" role="status">An item price is missing. Refresh your cart before checkout.</p> }
+        <div class="summary-trust"><span>◈ Secure Payment</span><i></i><span>▰ Fast Delivery</span></div>
+        <a class="summary-help" routerLink="/products">← Continue Shopping</a>
+      </aside>
+    </div>
+  }
+</section>

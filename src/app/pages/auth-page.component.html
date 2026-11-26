@@ -1,0 +1,65 @@
+<section class="auth-page">
+  <div class="auth-card">
+    <div class="auth-aside">
+      <a routerLink="/" class="auth-logo">Fresh<span>Cart</span></a>
+      <svg class="auth-illustration" viewBox="0 0 440 300" role="img" aria-label="A shopping cart filled with fresh fruit and vegetables">
+        <rect x="273" y="12" width="145" height="210" rx="8" fill="#fff2ed"/>
+        <path d="M296 36h105M296 57h105M296 78h105M296 99h105M296 120h105M296 141h105M296 162h105M296 183h105" stroke="#f8d9cf" stroke-width="8"/>
+        <path d="M73 87h30l24 130h179l28-99H119" fill="none" stroke="#a9c5d0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m130 121 18 82h147l21-82H130Z" fill="#eaf7fb" stroke="#9ebcc8" stroke-width="6"/>
+        <path d="m145 129 16 70m24-70 8 70m29-70v70m29-70-5 70m34-70-14 70M133 153h176m-169 22h162" stroke="#b6d2dc" stroke-width="4"/>
+        <circle cx="175" cy="237" r="13" fill="#718895"/><circle cx="293" cy="237" r="13" fill="#718895"/>
+        <path d="M137 126c-20-32-14-73 10-86 26-14 53 18 50 62l-8 26-52-2Z" fill="#22a35a"/>
+        <path d="M146 119c-3-31 6-53 20-72m-16 46 23-22" fill="none" stroke="#b9e8a2" stroke-width="5"/>
+        <path d="M183 115c-5-41 17-70 42-66 30 4 35 42 13 74l-15 17-40-25Z" fill="#f3a90b"/>
+        <path d="M202 88c6-18 17-31 31-40" fill="none" stroke="#ffe18b" stroke-width="5"/>
+        <circle cx="252" cy="91" r="32" fill="#e94b42"/><path d="M251 60c-2-12 5-18 14-21m-13 22c-11-9-20-8-26-2" fill="none" stroke="#23894b" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="224" cy="117" r="25" fill="#f5bd22"/><path d="M223 92c-1-10 5-15 12-18" fill="none" stroke="#278e4b" stroke-width="5" stroke-linecap="round"/>
+        <path d="M263 124c-2-33 17-55 38-48 24 7 20 39-2 57l-14 12-22-21Z" fill="#79bd45"/>
+        <path d="M276 120c4-17 12-29 22-38" fill="none" stroke="#c5e99b" stroke-width="4"/>
+        <circle cx="171" cy="136" r="21" fill="#e65843"/><path d="M168 116c0-9 5-13 12-15" fill="none" stroke="#268d4b" stroke-width="5" stroke-linecap="round"/>
+        <path d="M242 144c-2-26 13-43 31-38 19 6 16 31-2 45l-11 9-18-16Z" fill="#62ad42"/>
+      </svg>
+      <div class="auth-story"><h2>FreshCart - Your One-Stop Shop for Fresh Products</h2><p>Join thousands of happy customers who trust FreshCart for their daily grocery needs.</p><div><span>▰ &nbsp;Free Delivery</span><span>◈ &nbsp;Secure Payment</span><span>◷ &nbsp;24/7 Support</span></div></div>
+      <small>FreshCart · Freshness delivered</small>
+    </div>
+    <div class="auth-form-side">
+      <a routerLink="/" class="auth-form-logo">Fresh<span>Cart</span></a>
+      <a routerLink="/" class="back-home">← Back to store</a>
+      <div class="form-heading"><span class="form-icon">{{ mode() === 'login' ? '♙' : mode() === 'register' ? '✦' : '⌑' }}</span><h1>{{ title() }}</h1><p>{{ subtitle() }}</p></div>
+      @if (error()) { <p class="error-message">{{ error() }}</p> }
+      @if (success()) { <p class="success-message">{{ success() }}</p> }
+      @if (mode() === 'login') {
+        <div class="auth-providers">
+          <button type="button" class="social-button" (click)="showProviderNotice('Google')"><strong class="google-mark">G</strong>Continue with Google</button>
+          <button type="button" class="social-button" (click)="showProviderNotice('Facebook')"><strong class="facebook-mark">f</strong>Continue with Facebook</button>
+        </div>
+        <div class="auth-divider"><span>OR CONTINUE WITH EMAIL</span></div>
+        @if (providerNotice()) { <p class="provider-notice" role="status">{{ providerNotice() }}</p> }
+      }
+      <form (ngSubmit)="submit()">
+        @if (mode() === 'register') {
+          <label>Full name<input name="name" [(ngModel)]="name" autocomplete="name" placeholder="Your full name" required minlength="2"></label>
+          <label>Phone number <span class="optional">(optional)</span><input name="phone" [(ngModel)]="phone" autocomplete="tel" placeholder="+20 100 000 0000"></label>
+        }
+        @if (mode() !== 'verify' && mode() !== 'change') {
+          <label>Email address<input name="email" [(ngModel)]="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        }
+        @if (mode() === 'verify') { <label>Reset code<input name="resetCode" [(ngModel)]="resetCode" inputmode="numeric" placeholder="Enter your reset code" required></label> }
+        @if (mode() === 'change') { <label>Current password<input name="currentPassword" [(ngModel)]="currentPassword" type="password" autocomplete="current-password" required></label> }
+        @if (mode() === 'login' || mode() === 'register' || mode() === 'reset' || mode() === 'change') {
+          <label>{{ mode() === 'login' ? 'Password' : 'New password' }}<input name="password" [(ngModel)]="password" type="password" [autocomplete]="mode() === 'login' ? 'current-password' : 'new-password'" placeholder="At least 8 characters" required minlength="8"></label>
+        }
+        @if (mode() === 'register' || mode() === 'change') {
+          <label>Confirm password<input name="confirmPassword" [(ngModel)]="confirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter your password" required minlength="8"></label>
+        }
+        @if (mode() === 'login') { <div class="forgot-row"><span>Keep your account secure</span><a routerLink="/forgot-password">Forgot password?</a></div> }
+        <button type="submit" class="button button-green submit-button" [disabled]="busy()">{{ busy() ? 'Please wait…' : mode() === 'login' ? 'Sign In' : mode() === 'register' ? 'Create Account' : mode() === 'forgot' ? 'Send Reset Code' : mode() === 'verify' ? 'Verify Code' : mode() === 'reset' ? 'Reset Password' : 'Update Password' }}</button>
+      </form>
+      @if (mode() === 'login') { <p class="form-switch">New to FreshCart? <a routerLink="/register">Create an account</a></p> }
+      @if (mode() === 'register') { <p class="form-switch">Already have an account? <a routerLink="/login">Sign in</a></p> }
+      @if (mode() === 'verify') { <p class="form-switch">Didn't get a code? <a routerLink="/forgot-password">Send another</a></p> }
+      @if (mode() === 'reset') { <p class="form-switch">Need a new code? <a routerLink="/forgot-password">Start again</a></p> }
+    </div>
+  </div>
+</section>

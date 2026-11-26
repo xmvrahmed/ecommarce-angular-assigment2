@@ -1,0 +1,23 @@
+<section class="container detail-page">
+  <div class="breadcrumb"><a routerLink="/">Home</a><span>/</span><a routerLink="/products">Products</a><span>/</span><span>{{ product()?.title || 'Product details' }}</span></div>
+  @if (loading()) { <div class="loading-state">Loading product details…</div> }
+  @else if (error()) { <div class="empty-state"><div class="empty-icon">⚠</div><h2>Product unavailable</h2><p>{{ error() }}</p><a class="button button-green" routerLink="/products">Back to products</a></div> }
+  @else if (product(); as item) {
+    <div class="detail-layout">
+      <div class="gallery">
+        <div class="main-image"><img [src]="selectedImage()" [alt]="item.title"></div>
+        @if (item.images?.length) { <div class="thumbnail-list">@for (image of item.images; track image) { <button type="button" [class.active]="selectedImage() === image" (click)="selectedImage.set(image)"><img [src]="image" [alt]="item.title"></button> }</div> }
+      </div>
+      <div class="detail-info">
+        <a class="detail-category" [routerLink]="['/categories', item.category?._id]">{{ item.category?.name || 'FreshCart collection' }}</a>
+        <h1>{{ item.title }}</h1><div class="detail-rating"><span>★★★★★</span>{{ item.ratingsAverage || 4.5 }} <small>({{ item.ratingsQuantity || 0 }} reviews)</small></div>
+        <div class="detail-price"><strong>{{ item.priceAfterDiscount || item.price }} EGP</strong>@if (item.priceAfterDiscount) { <del>{{ item.price }} EGP</del> }</div>
+        <p class="description">{{ item.description || 'A quality pick, selected for you. Add it to your basket and enjoy a little extra goodness in your day.' }}</p>
+        <div class="stock-note"><span></span> In stock and ready to ship</div>
+        <div class="purchase-row"><div class="quantity-control"><button type="button" (click)="decreaseCount()" aria-label="Decrease quantity">−</button><span>{{ count() }}</span><button type="button" (click)="increaseCount()" aria-label="Increase quantity">+</button></div><button type="button" class="button button-green add-cart" (click)="addToCart()">Add to cart <span>→</span></button><button type="button" class="detail-wish" (click)="toggleWishlist()" aria-label="Toggle wishlist">{{ isFavorite(item) ? '♥' : '♡' }}</button></div>
+        @if (message()) { <p class="success-message">{{ message() }}</p> }
+        <div class="detail-perks"><div>🚚 <span><strong>Free delivery</strong><small>On orders over 500 EGP</small></span></div><div>↶ <span><strong>Easy returns</strong><small>14-day return policy</small></span></div><div>◈ <span><strong>Secure checkout</strong><small>Your data is protected</small></span></div></div>
+      </div>
+    </div>
+  }
+</section>

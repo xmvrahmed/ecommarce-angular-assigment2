@@ -1,0 +1,19 @@
+<section class="container orders-page">
+  <div class="page-heading"><div><div class="crumb"><a routerLink="/">Home</a> / Orders</div><h1>Your Orders</h1><p>Keep track of your FreshCart deliveries.</p></div><span class="orders-icon">▤</span></div>
+  @if (error()) { <p class="error-message">{{ error() }}</p> }
+  @if (loading()) { <div class="loading-state">Loading your orders…</div> }
+  @else if (store.orders().length) {
+    <div class="orders-list">
+      @for (order of store.orders(); track order._id) {
+        <article class="order-card">
+          <div class="order-header"><div><span>ORDER</span><strong>#{{ order._id }}</strong></div><span class="order-status" [class.delivered]="order.isDelivered">{{ order.isDelivered ? 'Delivered' : 'Processing' }}</span></div>
+          <div class="order-meta"><span>Placed {{ order.createdAt | date:'mediumDate' }}</span><span>{{ order.paymentMethodType || 'Cash' }} payment</span><span>{{ order.cartItems?.length || 0 }} items</span></div>
+          @if (order.cartItems?.length) { <div class="order-products">@for (line of order.cartItems; track line.product._id) { <div class="order-product"><img [src]="line.product.imageCover" [alt]="line.product.title"><span>{{ line.product.title }} <small>× {{ line.count }}</small></span></div> }</div> }
+          <div class="order-footer"><span>Payment: <strong>{{ order.isPaid ? 'Paid' : 'Due on delivery' }}</strong></span><strong class="order-total">{{ order.totalOrderPrice || 0 }} EGP</strong></div>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state"><div class="empty-icon">▤</div><h2>No orders just yet</h2><p>Once you place your first order, you can follow its journey here.</p><a class="button button-green" routerLink="/products">Start shopping</a></div>
+  }
+</section>
